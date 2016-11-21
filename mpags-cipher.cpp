@@ -21,12 +21,20 @@ int main(int argc, char* argv[])
   ProgramSettings settings { false, false, "", "", "", CipherMode::Encrypt, CipherType::Caesar };
 
   // Process command line arguments
-  bool cmdLineStatus { processCommandLine(cmdLineArgs, settings) };
+  try {
 
-  // Any failure in the argument processing means we can't continue
-  // Use a non-zero return value to indicate failure
-  if( !cmdLineStatus ) {
+    processCommandLine(cmdLineArgs, settings);
+
+  } catch ( const MissingArgument& e ) {
+
+    std::cerr << "[error] Missing argument: " << e.what() << std::endl;
     return 1;
+
+  } catch ( const UnknownArgument& e ) {
+
+    std::cerr << "[error] Unknown argument: " << e.what() << std::endl;
+    return 1;
+
   }
 
   // Handle help, if requested

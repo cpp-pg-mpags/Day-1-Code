@@ -2,6 +2,7 @@
 #define MPAGSCIPHER_PROCESSCOMMANDLINE_HPP
 
 // Standard library includes
+#include <exception>
 #include <string>
 #include <vector>
 
@@ -29,12 +30,43 @@ struct ProgramSettings {
 };
 
 /**
+ * \class MissingArgument
+ * \brief Exception object indicating a missing command-line argument
+ *
+ * Exception object to indicate that a command-line option flag is not followed by the expected argument
+ */
+class MissingArgument : public std::invalid_argument {
+  public :
+    /**
+     * \brief Construct a MissingArgument exception
+     * \param what the diagnostic message
+     */
+    MissingArgument( const std::string& what ) : std::invalid_argument(what) {}
+};
+
+/**
+ * \class UnknownArgument
+ * \brief Exception object indicating an unknown command-line argument
+ *
+ * Exception object to indicate that an unexpected command-line argument has been encountered
+ */
+class UnknownArgument : public std::invalid_argument {
+  public :
+    /**
+     * \brief Construct a UnknownArgument exception
+     * \param what the diagnostic message
+     */
+    UnknownArgument( const std::string& what ) : std::invalid_argument(what) {}
+};
+
+/**
  * \brief Processes the command-line arguments and modifies accordingly the program settings
+ *
+ * In case of a parsing error, one of the exceptions MissingArgument or UnknownArgument may be thrown
  *
  * \param args the command-line arguments to be processed
  * \param settings the program settings to be modified based upon the arguments received
- * \return true if the arguments could be successfully parsed, false otherwise
  */
-bool processCommandLine(const std::vector<std::string>& args, ProgramSettings& settings);
+void processCommandLine(const std::vector<std::string>& args, ProgramSettings& settings);
 
 #endif // MPAGSCIPHER_PROCESSCOMMANDLINE_HPP 

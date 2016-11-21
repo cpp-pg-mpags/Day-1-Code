@@ -21,22 +21,29 @@ std::unique_ptr<Cipher> cipherFactory(const CipherType type, const std::string& 
 	// We have the key as a string, but the Caesar cipher needs an unsigned long, so we first need to convert it
 	// We default to having a key of 0, i.e. no encryption, if no key was provided on the command line
 	size_t caesarKey {0};
+
 	if ( ! key.empty() ) {
-	  // Before doing the conversion we should check that the string contains a valid positive integer.
-	  // Here we do that by looping through each character and checking that it is a digit.
-	  // (Since the conversion function will throw an exception if the string does
-	  // not represent a valid integer, we could have checked for and handled
-	  // that instead but we do not cover exceptions at all in this course - they
-	  // are a very complex area of C++ that could take an entire course on their own!)
-	  for ( const auto& elem : key ) {
-	    if ( ! std::isdigit(elem) ) {
-	      std::cerr << "[error] cipher key must be an unsigned long integer for Caesar cipher,\n"
-		<< "        the supplied key (" << key << ") could not be successfully converted" << std::endl;
-	      return std::unique_ptr<Cipher>();
-	    }
+	  // The conversion function will throw an exception if the string does
+	  // not represent a valid unsigned long integer
+	  try {
+
+	    caesarKey = std::stoul(key);
+
+	  } catch ( const std::invalid_argument& ) {
+
+	    std::cerr << "[error] cipher key must be an unsigned long integer for Caesar cipher,\n"
+	              << "        the supplied key (" << key << ") could not be successfully converted" << std::endl;
+	    return std::unique_ptr<Cipher>();
+
+	  } catch ( const std::out_of_range& ) {
+
+	    std::cerr << "[error] cipher key must be an unsigned long integer for Caesar cipher,\n"
+	              << "        the supplied key (" << key << ") was not in the right range" << std::endl;
+	    return std::unique_ptr<Cipher>();
+
 	  }
-	  caesarKey = std::stoul(key);
 	}
+
 	return std::make_unique<CaesarCipher>( caesarKey );
       }
 

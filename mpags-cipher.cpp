@@ -3,6 +3,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <chrono>
+#include <future>
 
 // Our project headers
 #include "CipherFactory.hpp"
@@ -108,9 +110,45 @@ int main(int argc, char* argv[])
     return 1;
   }
 
-  // Run the cipher on the input text, specifying whether to encrypt/decrypt
-  std::string outputText { cipher->applyCipher( inputText, settings.cipherMode ) };
+  // loop over the number of threads we want to create
+  // Note the number of threads should be configurable at the command line!
+  int numThreads{4};
+  std::string threadText{""};
+  std::vector< std::future< std::string > > futures;
+  
+  // make sure the chunk size * number of threads will cover the whole inputText
+  size_t chunkSize{ 1 + inputText.size() / numThreads };
 
+  // create the threads
+  for (int i{0}; i < numThreads; i++) {
+    threadText = inputText.substr( i * chunkSize, chunkSize );
+
+    // start the thread with the given lambda - need to pass threadText by value as otherwise it
+    // will have changed in the next loop iteration
+    futures.push_back( std::async( [threadText, &cipher, &settings] () { return cipher->applyCipher( threadText, settings.cipherMode ); } ) );
+  }
+
+  // now wait for each to finish
+  bool complete{false};
+  while (!complete) {
+
+    // set the flag to completed and set it back if it finds incomplete threads
+    complete = true;
+    
+    for ( auto &future : futures ) {      
+      auto status = future.wait_for(std::chrono::seconds(10));
+      if (status != std::future_status::ready){
+	complete = false;
+      }
+    }
+  }
+
+  // concatenate all the output text
+  std::string outputText{""};
+  for ( auto &future : futures ) {
+    outputText += future.get();
+  }
+  
   // Output the transliterated text
   if (!settings.outputFile.empty()) {
 

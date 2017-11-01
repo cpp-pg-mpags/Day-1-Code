@@ -15,30 +15,30 @@ add_test(NAME test-catch COMMAND testCatch)
 
 # Test TransformChar
 add_executable(testTransformChar testTransformChar.cpp)
-target_link_libraries(testTransformChar MPAGSCipher)
+target_link_libraries(testTransformChar MPAGSCipher Catch)
 add_test(NAME test-transformchar COMMAND testTransformChar)
 
 # Test ProcessCommandLine
 add_executable(testProcessCommandLine testProcessCommandLine.cpp)
-target_link_libraries(testProcessCommandLine MPAGSCipher)
+target_link_libraries(testProcessCommandLine MPAGSCipher Catch)
 add_test(NAME test-processcommandline COMMAND testProcessCommandLine)
 
 # Test CaesarCipher Class
 add_executable(testCaesarCipher testCaesarCipher.cpp)
-target_link_libraries(testCaesarCipher MPAGSCipher)
+target_link_libraries(testCaesarCipher MPAGSCipher Catch)
 add_test(NAME test-caesarcipher COMMAND testCaesarCipher)
 
 # Test PlayfairCipher Class
 add_executable(testPlayfairCipher testPlayfairCipher.cpp)
-target_link_libraries(testPlayfairCipher MPAGSCipher)
+target_link_libraries(testPlayfairCipher MPAGSCipher Catch)
 add_test(NAME test-playfaircipher COMMAND testPlayfairCipher)
 
 # Test VigenereCipher Class
 add_executable(testVigenereCipher testVigenereCipher.cpp)
-target_link_libraries(testVigenereCipher MPAGSCipher)
+target_link_libraries(testVigenereCipher MPAGSCipher Catch)
 add_test(NAME test-vigenerecipher COMMAND testVigenereCipher)
 
 # Test all Cipher classes
 add_executable(testCiphers testCiphers.cpp)
-target_link_libraries(testCiphers MPAGSCipher)
+target_link_libraries(testCiphers MPAGSCipher Catch)
 add_test(NAME test-ciphers COMMAND testCiphers)

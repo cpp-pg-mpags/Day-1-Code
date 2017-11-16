@@ -25,6 +25,12 @@ void VigenereCipher::setKey( const std::string& key )
   key_.erase( std::remove_if( std::begin(key_), std::end(key_), [](char c){ return !std::isalpha(c); } ),
 		  std::end(key_) );
 
+  // Check that the key is not now empty
+  if ( key_.empty() ) {
+    // If it is, throw an exception
+    throw InvalidKey("Vigenere cipher requires an alphabetic key");
+  }
+
   // Loop through the key
   for ( const char letter : key_ ) {
 

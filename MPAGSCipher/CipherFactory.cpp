@@ -49,12 +49,22 @@ std::unique_ptr<Cipher> cipherFactory(const CipherType type, const std::string& 
 
     case CipherType::Playfair:
       {
-	return std::make_unique<PlayfairCipher>( key );
+	try {
+	  return std::make_unique<PlayfairCipher>( key );
+	} catch ( const InvalidKey& e ) {
+	  std::cerr << "[error] Invalid key: " << e.what() << std::endl;
+	  return std::unique_ptr<Cipher>();
+	}
       }
 
     case CipherType::Vigenere:
       {
-	return std::make_unique<VigenereCipher>( key );
+	try {
+	  return std::make_unique<VigenereCipher>( key );
+	} catch ( const InvalidKey& e ) {
+	  std::cerr << "[error] Invalid key: " << e.what() << std::endl;
+	  return std::unique_ptr<Cipher>();
+	}
       }
   }
 

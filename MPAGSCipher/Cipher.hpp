@@ -48,4 +48,19 @@ class Cipher {
     virtual ~Cipher() = default;
 };
 
+/**
+ * \class InvalidKey
+ * \brief Exception object indicating an invalid key
+ *
+ * Exception object to indicate that the key provided to the given cipher is invalid
+ */
+class InvalidKey : public std::invalid_argument {
+  public :
+    /**
+     * \brief Construct an InvalidKey exception
+     * \param what the diagnostic message
+     */
+    InvalidKey( const std::string& what ) : std::invalid_argument(what) {}
+};
+
 #endif

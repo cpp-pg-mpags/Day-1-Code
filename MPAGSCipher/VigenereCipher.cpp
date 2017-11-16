@@ -1,5 +1,6 @@
 
 // Standard library includes
+#include <iostream>
 #include <string>
 #include <algorithm>
 
@@ -24,6 +25,14 @@ void VigenereCipher::setKey( const std::string& key )
   // Remove non-alphabet characters
   key_.erase( std::remove_if( std::begin(key_), std::end(key_), [](char c){ return !std::isalpha(c); } ),
 		  std::end(key_) );
+
+  // Check that the key is not now empty
+  if ( key_.empty() ) {
+    // If it is we would ideally throw an exception to indicate a problem (see Day 6)
+    // For now we'll just set it to be some default value and print a warning
+    key_ = "VIGENEREEXAMPLE";
+    std::cerr << "[warning] key provide to VigenereCipher is empty, setting it to the default: " << key_ << std::endl;
+  }
 
   // Loop through the key
   for ( const char letter : key_ ) {

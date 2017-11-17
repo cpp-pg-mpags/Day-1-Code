@@ -17,55 +17,13 @@ std::unique_ptr<Cipher> cipherFactory(const CipherType type, const std::string& 
   switch ( type ) {
 
     case CipherType::Caesar:
-      {
-	// We have the key as a string, but the Caesar cipher needs an unsigned long, so we first need to convert it
-	// We default to having a key of 0, i.e. no encryption, if no key was provided on the command line
-	size_t caesarKey {0};
-
-	if ( ! key.empty() ) {
-	  // The conversion function will throw an exception if the string does
-	  // not represent a valid unsigned long integer
-	  try {
-
-	    caesarKey = std::stoul(key);
-
-	  } catch ( const std::invalid_argument& ) {
-
-	    std::cerr << "[error] cipher key must be an unsigned long integer for Caesar cipher,\n"
-	              << "        the supplied key (" << key << ") could not be successfully converted" << std::endl;
-	    return std::unique_ptr<Cipher>();
-
-	  } catch ( const std::out_of_range& ) {
-
-	    std::cerr << "[error] cipher key must be an unsigned long integer for Caesar cipher,\n"
-	              << "        the supplied key (" << key << ") was not in the right range" << std::endl;
-	    return std::unique_ptr<Cipher>();
-
-	  }
-	}
-
-	return std::make_unique<CaesarCipher>( caesarKey );
-      }
+      return std::make_unique<CaesarCipher>( key );
 
     case CipherType::Playfair:
-      {
-	try {
-	  return std::make_unique<PlayfairCipher>( key );
-	} catch ( const InvalidKey& e ) {
-	  std::cerr << "[error] Invalid key: " << e.what() << std::endl;
-	  return std::unique_ptr<Cipher>();
-	}
-      }
+      return std::make_unique<PlayfairCipher>( key );
 
     case CipherType::Vigenere:
-      {
-	try {
-	  return std::make_unique<VigenereCipher>( key );
-	} catch ( const InvalidKey& e ) {
-	  std::cerr << "[error] Invalid key: " << e.what() << std::endl;
-	  return std::unique_ptr<Cipher>();
-	}
-      }
+      return std::make_unique<VigenereCipher>( key );
   }
 
   // Just in case we drop out of the switch (shouldn't be possible but gcc seems to think it is)

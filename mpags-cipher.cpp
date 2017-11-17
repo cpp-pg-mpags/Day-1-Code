@@ -108,7 +108,13 @@ int main(int argc, char* argv[])
   }
 
   // Request construction of the appropriate cipher
-  auto cipher = cipherFactory( settings.cipherType, settings.cipherKey );
+  std::unique_ptr<Cipher> cipher;
+  try {
+    cipher = cipherFactory( settings.cipherType, settings.cipherKey );
+  } catch ( const InvalidKey& e ) {
+    std::cerr << "[error] Invalid key: " << e.what() << std::endl;
+    return 1;
+  }
 
   // Check that the cipher was constructed successfully
   if ( ! cipher ) {

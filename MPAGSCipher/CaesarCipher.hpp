@@ -25,7 +25,17 @@ class CaesarCipher : public Cipher {
      *
      * \param key the key to use in the cipher
      */
-    CaesarCipher( const size_t key );
+    explicit CaesarCipher( const size_t key );
+
+    /**
+     * Create a new CaesarCipher with the given key
+     *
+     * The string will be converted to an unsigned integer.
+     * If the conversion fails an InvalidKey exception will be emitted.
+     *
+     * \param key the key to use in the cipher
+     */
+    explicit CaesarCipher( const std::string& key );
 
     /**
      * Apply the cipher to the provided text

@@ -26,7 +26,7 @@ class VigenereCipher : public Cipher {
      *
      * \param key the key to use in the cipher
      */
-    VigenereCipher( const std::string& key );
+    explicit VigenereCipher( const std::string& key );
 
     /**
      * Set the key to be used for the encryption/decryption

@@ -12,6 +12,30 @@ CaesarCipher::CaesarCipher( const size_t key )
 {
 }
 
+CaesarCipher::CaesarCipher( const std::string& key )
+  : key_{0}
+{
+  // We have the key as a string, but the Caesar cipher needs an unsigned long, so we first need to convert it
+  // We default to having a key of 0, i.e. no encryption, if no key was provided on the command line
+  if ( ! key.empty() ) {
+    // The conversion function will throw an exception if the string does
+    // not represent a valid unsigned long integer
+    try {
+
+      key_ = std::stoul(key) % Alphabet::size;
+
+    } catch ( const std::invalid_argument& ) {
+
+      throw InvalidKey("Caesar cipher requires an unsigned long integer key, the supplied key (" + key + ") could not be successfully converted");
+
+    } catch ( const std::out_of_range& ) {
+
+      throw InvalidKey("Caesar cipher requires an unsigned long integer key, the supplied key (" + key + ") was not in the right range");
+
+    }
+  }
+}
+
 std::string CaesarCipher::applyCipher( const std::string& inputText, const CipherMode cipherMode ) const
 {
   // Create the output string

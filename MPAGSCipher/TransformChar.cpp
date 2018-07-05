@@ -22,6 +22,7 @@ std::string transformChar(const char in_char)
   // Uppercase alphabetic characters
   if (std::isalpha(in_char)) {
     out_text += std::toupper(in_char);
+    return out_text;
   }
 
   // Transliterate digits to English words

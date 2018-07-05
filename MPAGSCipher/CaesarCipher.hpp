@@ -25,7 +25,14 @@ class CaesarCipher : public Cipher {
      *
      * \param key the key to use in the cipher
      */
-    CaesarCipher( const size_t key );
+    explicit CaesarCipher( const size_t key );
+
+    /**
+     * Create a new CaesarCipher, converting the given string into the key
+     *
+     * \param key the string to convert into the key to be used in the cipher
+     */
+    explicit CaesarCipher( const std::string& key );
 
     /**
      * Apply the cipher to the provided text

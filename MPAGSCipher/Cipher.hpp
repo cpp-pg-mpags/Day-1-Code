@@ -2,7 +2,7 @@
 #define MPAGSCIPHER_CIPHER_HPP
 
 // Standard library includes
-#include <exception>
+#include <stdexcept>
 #include <string>
 
 // Our project headers

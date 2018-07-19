@@ -2,7 +2,7 @@
 #define MPAGSCIPHER_PROCESSCOMMANDLINE_HPP
 
 // Standard library includes
-#include <exception>
+#include <stdexcept>
 #include <string>
 #include <vector>
 

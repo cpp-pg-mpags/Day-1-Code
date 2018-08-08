@@ -14,6 +14,9 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 # - Don't allow C++ Compiler Vendor Extensions
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+# - Set C++ Standard directly to c++14
+set(CMAKE_CXX_STANDARD 14)
+
 # - Use our standard set of flags
 set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror -Wfatal-errors -Wshadow -pedantic")
 

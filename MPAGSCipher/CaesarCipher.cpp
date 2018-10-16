@@ -18,6 +18,12 @@ CaesarCipher::CaesarCipher( const std::string& key )
   // We have the key as a string, but the Caesar cipher needs an unsigned long, so we first need to convert it
   // We default to having a key of 0, i.e. no encryption, if no key was provided on the command line
   if ( ! key.empty() ) {
+
+    // First, explicitly check for negative numbers - these will convert successfully but will not lead to expected results
+    if ( key.front() == '-' ) {
+      throw InvalidKey("Caesar cipher requires an unsigned long integer key, the supplied key (" + key + ") could not be successfully converted");
+    }
+
     // The conversion function will throw an exception if the string does
     // not represent a valid unsigned long integer
     try {

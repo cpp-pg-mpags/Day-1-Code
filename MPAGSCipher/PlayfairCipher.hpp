@@ -25,7 +25,7 @@ class PlayfairCipher : public Cipher {
      *
      * \param key the key to use in the cipher
      */
-    PlayfairCipher( const std::string& key );
+    explicit PlayfairCipher( const std::string& key );
 
     /**
      * Set the key to be used for the encryption/decryption

@@ -25,7 +25,7 @@ void PlayfairCipher::setKey( const std::string& key )
 
   // Remove non-alphabet characters
   key_.erase( std::remove_if( std::begin(key_), std::end(key_), [](char c){ return !std::isalpha(c); } ),
-		  std::end(key_) );
+              std::end(key_) );
 
   // Change J -> I
   std::transform( std::begin(key_), std::end(key_), std::begin(key_), [](char c){ return (c == 'J') ? 'I' : c; } );
@@ -33,24 +33,25 @@ void PlayfairCipher::setKey( const std::string& key )
   // Remove duplicated letters
   std::string lettersFound {""};
   auto detectDuplicates = [&](char c) {
-	  if ( lettersFound.find(c) == std::string::npos ) {
-		  lettersFound += c;
-		  return false;
-	  } else {
-		  return true;
-	  }
+    if ( lettersFound.find(c) == std::string::npos ) {
+      lettersFound += c;
+      return false;
+    } else {
+      return true;
+    }
   };
   key_.erase( std::remove_if( std::begin(key_), std::end(key_), detectDuplicates ), std::end(key_) );
 
   // Store the coordinates of each letter
-  for ( std::string::size_type i{0}; i < key_.size(); ++i ) {
-	  std::string::size_type row{ i/5 };
-	  std::string::size_type column{ i%5 };
+  // (at this point the key length must be equal to the square of the grid dimension)
+  for ( std::string::size_type i{0}; i < keyLength_; ++i ) {
+    std::string::size_type row{ i/gridDim_ };
+    std::string::size_type column{ i%gridDim_ };
 
-	  auto coords = std::make_pair( row, column );
+    auto coords = std::make_pair( row, column );
 
-	  charLookup_[ key_[i] ] = coords;
-	  coordLookup_[ coords ] = key_[i];
+    charLookup_[ key_[i] ] = coords;
+    coordLookup_[ coords ] = key_[i];
   }
 }
 
@@ -65,6 +66,8 @@ std::string PlayfairCipher::applyCipher( const std::string& inputText, const Cip
   // Find repeated characters (but only when they occur within a bigram)
   // and add an X (or a Q for repeated X's) between them
   std::string tmpText {""};
+  // Reserve space to hold the size of the input text plus a bit of headroom
+  tmpText.reserve( outputText.size() * 1.1 );
   for (std::string::size_type i{0}; i < outputText.size(); i+=2) {
     // Always add the first of the bigram
     tmpText += outputText[i];
@@ -84,13 +87,18 @@ std::string PlayfairCipher::applyCipher( const std::string& inputText, const Cip
       --i;
     }
   }
-  outputText = tmpText;
+  // Swap the contents of the original and modified strings - cheaper than assignment
+  outputText.swap(tmpText);
 
   // If the size of the input is odd, add a trailing Z
   // (or add an X if the last character is already a Z)
   if ( (outputText.size() % 2) == 1 ) {
     outputText += (outputText[outputText.size()-1] == 'Z') ? 'X' : 'Z';
   }
+
+  // Depending on encryption/decryption mode, set whether to increment or
+  // decrement the column/row index (modulo the grid dimension)
+  const std::string::size_type shift { (cipherMode == CipherMode::Encrypt) ? 1u : gridDim_-1u };
 
   // Loop over the input digraphs
   for (std::string::size_type i{0}; i < outputText.size(); i+=2) {
@@ -105,31 +113,15 @@ std::string PlayfairCipher::applyCipher( const std::string& inputText, const Cip
     // Then apply the appropriate rule to these coords to get new coords
     if ( pointOne.first == pointTwo.first ) {
 
-      // Row - so increment/decrement the column indices (modulo 5)
-      switch ( cipherMode ) {
-	case CipherMode::Encrypt :
-	  pointOne.second = (pointOne.second + 1) % 5;
-	  pointTwo.second = (pointTwo.second + 1) % 5;
-	  break;
-	case CipherMode::Decrypt :
-	  pointOne.second = (5 + pointOne.second - 1) % 5;
-	  pointTwo.second = (5 + pointTwo.second - 1) % 5;
-	  break;
-      }
+      // Row - so increment/decrement the column indices (modulo the grid dimension)
+      pointOne.second = (pointOne.second + shift) % gridDim_;
+      pointTwo.second = (pointTwo.second + shift) % gridDim_;
 
     } else if ( pointOne.second == pointTwo.second ) {
 
-      // Column - so increment/decrement the row indices (modulo 5)
-      switch ( cipherMode ) {
-	case CipherMode::Encrypt :
-	  pointOne.first = (pointOne.first + 1) % 5;
-	  pointTwo.first = (pointTwo.first + 1) % 5;
-	  break;
-	case CipherMode::Decrypt :
-	  pointOne.first = (5 + pointOne.first - 1) % 5;
-	  pointTwo.first = (5 + pointTwo.first - 1) % 5;
-	  break;
-      }
+      // Column - so increment/decrement the row indices (modulo the grid dimension)
+      pointOne.first = (pointOne.first + shift) % gridDim_;
+      pointTwo.first = (pointTwo.first + shift) % gridDim_;
 
     } else {
 

@@ -44,6 +44,12 @@ class PlayfairCipher : public Cipher {
     virtual std::string applyCipher( const std::string& inputText, const CipherMode cipherMode ) const override;
 
   private:
+    /// The grid dimension
+    const std::string::size_type gridDim_ = 5;
+
+    /// The key length = grid dim^2
+    const std::string::size_type keyLength_ = gridDim_*gridDim_;
+
     /// The cipher key
     std::string key_ = "";
 

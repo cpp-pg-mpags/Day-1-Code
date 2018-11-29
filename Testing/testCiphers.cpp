@@ -16,25 +16,31 @@ bool testCipher( const Cipher& cipher, const CipherMode mode, const std::string&
 }
 
 TEST_CASE("Cipher encryption/decryption", "[ciphers]") {
+
   std::vector<std::unique_ptr<Cipher>> ciphers;
-  ciphers.push_back( cipherFactory(CipherType::Caesar,"10") );
-  ciphers.push_back( cipherFactory(CipherType::Playfair,"hello") );
-  ciphers.push_back( cipherFactory(CipherType::Vigenere,"hello") );
-
   std::vector<std::string> plainText;
-  plainText.push_back("HELLOWORLD");
-  plainText.push_back("BOBISXSOMESORTOFIUNIORCOMPLEXQXENOPHONEONEZEROTHINGZ");
-  plainText.push_back("THISISQUITEALONGMESSAGESOTHEKEYWILLNEEDTOREPEATAFEWTIMES");
-
   std::vector<std::string> cipherText;
+  std::vector<std::string> decryptText;
+
+  ciphers.push_back( cipherFactory(CipherType::Caesar,"10") );
+  plainText.push_back("HELLOWORLD");
   cipherText.push_back("ROVVYGYBVN");
+  decryptText.push_back("HELLOWORLD");
+
+  ciphers.push_back( cipherFactory(CipherType::Playfair,"hello") );
+  plainText.push_back("BOBISSOMESORTOFJUNIORCOMPLEXXENOPHONEONEZEROTHING");
   cipherText.push_back("FHIQXLTLKLTLSUFNPQPKETFENIOLVSWLTFIAFTLAKOWATEQOKPPA");
+  decryptText.push_back("BOBISXSOMESORTOFIUNIORCOMPLEXQXENOPHONEONEZEROTHINGZ");
+
+  ciphers.push_back( cipherFactory(CipherType::Vigenere,"hello") );
+  plainText.push_back("THISISQUITEALONGMESSAGESOTHEKEYWILLNEEDTOREPEATAFEWTIMES");
   cipherText.push_back("ALTDWZUFTHLEWZBNQPDGHKPDCALPVSFATWZUIPOHVVPASHXLQSDXTXSZ");
+  decryptText.push_back("THISISQUITEALONGMESSAGESOTHEKEYWILLNEEDTOREPEATAFEWTIMES");
 
   for ( size_t i{0}; i < ciphers.size(); ++i ) {
     REQUIRE( ciphers[i] );
     REQUIRE( testCipher( *ciphers[i], CipherMode::Encrypt, plainText[i], cipherText[i]) );
-    REQUIRE( testCipher( *ciphers[i], CipherMode::Decrypt, cipherText[i], plainText[i]) );
+    REQUIRE( testCipher( *ciphers[i], CipherMode::Decrypt, cipherText[i], decryptText[i]) );
   }
 }
 

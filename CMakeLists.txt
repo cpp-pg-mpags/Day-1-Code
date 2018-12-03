@@ -18,7 +18,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD 14)
 
 # - Use our standard set of flags
-set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror -Wfatal-errors -Wshadow -pedantic -lpthread")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror -Wfatal-errors -Wshadow -pedantic")
 
 # - Add the MPAGSCipher subdirectory to the build
 add_subdirectory(MPAGSCipher)
@@ -31,6 +31,7 @@ enable_testing()
 add_subdirectory(Testing)
 
 # - Declare the build of mpags-cipher main program and link it to
-# the MPAGSCipher library
+# the MPAGSCipher library, and the available threading library
+find_package( Threads )
 add_executable(mpags-cipher mpags-cipher.cpp)
-target_link_libraries(mpags-cipher PRIVATE MPAGSCipher)
+target_link_libraries(mpags-cipher PRIVATE MPAGSCipher ${CMAKE_THREAD_LIBS_INIT})

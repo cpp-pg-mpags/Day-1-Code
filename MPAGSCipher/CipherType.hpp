@@ -16,4 +16,4 @@ enum class CipherType {
   Vigenere  ///< The Vigenere cipher
 };
 
-#endif // MPAGSCIPHER_CIPHERTYPE_HPP 
+#endif // MPAGSCIPHER_CIPHERTYPE_HPP

@@ -10,7 +10,7 @@
 #include "CipherType.hpp"
 #include "TransformChar.hpp"
 #include "ProcessCommandLine.hpp"
-  
+
 // Main function of the mpags-cipher program
 int main(int argc, char* argv[])
 {

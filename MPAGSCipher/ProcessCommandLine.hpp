@@ -69,4 +69,4 @@ class UnknownArgument : public std::invalid_argument {
  */
 void processCommandLine(const std::vector<std::string>& args, ProgramSettings& settings);
 
-#endif // MPAGSCIPHER_PROCESSCOMMANDLINE_HPP 
+#endif // MPAGSCIPHER_PROCESSCOMMANDLINE_HPP

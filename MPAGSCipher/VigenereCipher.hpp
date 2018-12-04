@@ -24,7 +24,10 @@ class VigenereCipher : public Cipher {
     /**
      * Create a new VigenereCipher with the given key
      *
-     * \param key the key to use in the cipher
+     * \param key the key to use in the cipher - should be purely alphabet characters
+     *
+     * \exception InvalidKey will be emitted if the supplied string is empty
+     *                       after removing all non-alphabet characters
      */
     explicit VigenereCipher( const std::string& key );
 

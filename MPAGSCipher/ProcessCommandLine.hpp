@@ -66,6 +66,9 @@ class UnknownArgument : public std::invalid_argument {
  *
  * \param args the command-line arguments to be processed
  * \param settings the program settings to be modified based upon the arguments received
+ *
+ * \exception MissingArgument will be emitted if an expected argument is not found during parsing
+ * \exception UnknownArgument will be emitted if an argument encountered during parsing is not recognised
  */
 void processCommandLine(const std::vector<std::string>& args, ProgramSettings& settings);
 

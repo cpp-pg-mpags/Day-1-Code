@@ -30,7 +30,7 @@ void processCommandLine(const std::vector<std::string>& args,
       // Next element is filename unless -i is the last argument
       if (i == nArgs-1) {
         // Throw an exception to indicate the missing argument
-	throw MissingArgument("-i/--infile requires a filename argument");
+        throw MissingArgument("-i/--infile requires a filename argument");
       }
       else {
         // Got filename, so assign value and advance past it
@@ -43,7 +43,7 @@ void processCommandLine(const std::vector<std::string>& args,
       // Next element is filename unless -o is the last argument
       if (i == nArgs-1) {
         // Throw an exception to indicate the missing argument
-	throw MissingArgument("-o/--outfile requires a filename argument");
+        throw MissingArgument("-o/--outfile requires a filename argument");
       }
       else {
         // Got filename, so assign value and advance past it
@@ -56,7 +56,7 @@ void processCommandLine(const std::vector<std::string>& args,
       // Next element is the key unless -k is the last argument
       if (i == nArgs-1) {
         // Throw an exception to indicate the missing argument
-	throw MissingArgument("-k/--key requires a string argument");
+        throw MissingArgument("-k/--key requires a string argument");
       }
       else {
         // Got the key, so assign the value and advance past it
@@ -77,19 +77,19 @@ void processCommandLine(const std::vector<std::string>& args,
       // Next element is the name of the cipher, unless -c is the last argument
       if (i == nArgs-1) {
         // Throw an exception to indicate the missing argument
-	throw MissingArgument("-c/--cipher requires a string argument");
+        throw MissingArgument("-c/--cipher requires a string argument");
       }
       else {
         // Got the key, so assign the value and advance past it
-	if ( args[i+1] == "caesar" ) {
-	  settings.cipherType = CipherType::Caesar;
-	} else if ( args[i+1] == "playfair" ) {
-	  settings.cipherType = CipherType::Playfair;
-	} else if ( args[i+1] == "vigenere" ) {
-	  settings.cipherType = CipherType::Vigenere;
-	} else {
-	  throw UnknownArgument("unknown cipher '" + args[i+1] + "'");
-	}
+        if ( args[i+1] == "caesar" ) {
+          settings.cipherType = CipherType::Caesar;
+        } else if ( args[i+1] == "playfair" ) {
+          settings.cipherType = CipherType::Playfair;
+        } else if ( args[i+1] == "vigenere" ) {
+          settings.cipherType = CipherType::Vigenere;
+        } else {
+          throw UnknownArgument("unknown cipher '" + args[i+1] + "'");
+        }
         ++i;
       }
     }

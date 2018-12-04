@@ -34,6 +34,9 @@ class CaesarCipher : public Cipher {
      * If the conversion fails an InvalidKey exception will be emitted.
      *
      * \param key the key to use in the cipher
+     *
+     * \exception InvalidKey will be emitted if the supplied string cannot be
+     *                       successfully converted to a positive integer
      */
     explicit CaesarCipher( const std::string& key );
 

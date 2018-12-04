@@ -33,9 +33,9 @@ CaesarCipher::CaesarCipher( const std::string& key )
     // could take an entire course on their own!)
     for ( const auto& elem : key ) {
       if ( ! std::isdigit(elem) ) {
-	std::cerr << "[error] cipher key must be an unsigned long integer for Caesar cipher,\n"
-	          << "        the supplied key (" << key << ") could not be successfully converted" << std::endl;
-	return;
+        std::cerr << "[error] cipher key must be an unsigned long integer for Caesar cipher,\n"
+                  << "        the supplied key (" << key << ") could not be successfully converted" << std::endl;
+        return;
       }
     }
     key_ = std::stoul(key) % Alphabet::size;
@@ -58,18 +58,18 @@ std::string CaesarCipher::applyCipher( const std::string& inputText, const Ciphe
 
       if ( origChar == Alphabet::alphabet[i] ) {
 
-	// Apply the appropriate shift (depending on whether we're encrypting
-	// or decrypting) and determine the new character
-	// Can then break out of the loop over the alphabet
-	switch ( cipherMode ) {
-	  case CipherMode::Encrypt :
-	    processedChar = Alphabet::alphabet[ (i + key_) % Alphabet::size ];
-	    break;
-	  case CipherMode::Decrypt :
-	    processedChar = Alphabet::alphabet[ (i + Alphabet::size - key_) % Alphabet::size ];
-	    break;
-	}
-	break;
+        // Apply the appropriate shift (depending on whether we're encrypting
+        // or decrypting) and determine the new character
+        // Can then break out of the loop over the alphabet
+        switch ( cipherMode ) {
+          case CipherMode::Encrypt :
+            processedChar = Alphabet::alphabet[ (i + key_) % Alphabet::size ];
+            break;
+          case CipherMode::Decrypt :
+            processedChar = Alphabet::alphabet[ (i + Alphabet::size - key_) % Alphabet::size ];
+            break;
+        }
+        break;
       }
     }
 

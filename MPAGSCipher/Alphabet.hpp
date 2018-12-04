@@ -21,4 +21,4 @@ namespace Alphabet {
   const AlphabetSize size { alphabet.size() };
 }
 
-#endif // MPAGSCIPHER_ALPHABET_HPP 
+#endif // MPAGSCIPHER_ALPHABET_HPP

@@ -12,7 +12,7 @@
 #include "CipherType.hpp"
 #include "TransformChar.hpp"
 #include "ProcessCommandLine.hpp"
-  
+
 // Main function of the mpags-cipher program
 int main(int argc, char* argv[])
 {
@@ -119,7 +119,7 @@ int main(int argc, char* argv[])
     constexpr size_t numThreads{4};
     std::string threadText{""};
     std::vector< std::future< std::string > > futures;
-  
+
     // make sure the chunk size * number of threads will cover the whole inputText
     const size_t chunkSize{ 1 + inputText.size() / numThreads };
 
@@ -138,11 +138,11 @@ int main(int argc, char* argv[])
 
       // set the flag to completed and set it back if it finds incomplete threads
       complete = true;
-    
-      for ( auto &future : futures ) {      
+
+      for ( auto &future : futures ) {
         auto status = future.wait_for(std::chrono::seconds(10));
         if (status != std::future_status::ready){
-	  complete = false;
+          complete = false;
         }
       }
     }
@@ -158,7 +158,7 @@ int main(int argc, char* argv[])
     // Run the cipher on the input text, specifying whether to encrypt/decrypt
     outputText = cipher->applyCipher( inputText, settings.cipherMode ) ;
   }
-  
+
   // Output the transliterated text
   if (!settings.outputFile.empty()) {
 

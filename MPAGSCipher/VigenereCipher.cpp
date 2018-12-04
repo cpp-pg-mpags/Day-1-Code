@@ -23,8 +23,10 @@ void VigenereCipher::setKey( const std::string& key )
   std::transform( std::begin(key_), std::end(key_), std::begin(key_), ::toupper );
 
   // Remove non-alphabet characters
-  key_.erase( std::remove_if( std::begin(key_), std::end(key_), [](char c){ return !std::isalpha(c); } ),
-		  std::end(key_) );
+  key_.erase(
+      std::remove_if( std::begin(key_), std::end(key_), [](char c){ return !std::isalpha(c); } ),
+      std::end(key_)
+      );
 
   // Check that the key is not now empty
   if ( key_.empty() ) {

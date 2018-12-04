@@ -92,17 +92,17 @@ bool processCommandLine(const std::vector<std::string>& args,
       }
       else {
         // Got the key, so assign the value and advance past it
-	if ( args[i+1] == "caesar" ) {
-	  settings.cipherType = CipherType::Caesar;
-	} else if ( args[i+1] == "playfair" ) {
-	  settings.cipherType = CipherType::Playfair;
-	} else if ( args[i+1] == "vigenere" ) {
-	  settings.cipherType = CipherType::Vigenere;
-	} else {
-	  std::cerr << "[error] unknown cipher '" << args[i+1] << "'\n";
-	  processStatus = false;
-	  break;
-	}
+        if ( args[i+1] == "caesar" ) {
+          settings.cipherType = CipherType::Caesar;
+        } else if ( args[i+1] == "playfair" ) {
+          settings.cipherType = CipherType::Playfair;
+        } else if ( args[i+1] == "vigenere" ) {
+          settings.cipherType = CipherType::Vigenere;
+        } else {
+          std::cerr << "[error] unknown cipher '" << args[i+1] << "'\n";
+          processStatus = false;
+          break;
+        }
         ++i;
       }
     }

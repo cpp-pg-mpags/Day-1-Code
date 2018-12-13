@@ -35,6 +35,9 @@ class VigenereCipher : public Cipher {
      * Set the key to be used for the encryption/decryption
      *
      * \param key the key to use in the cipher
+     *
+     * \exception InvalidKey will be emitted if the supplied string is empty
+     *                       after removing all non-alphabet characters
      */
     void setKey( const std::string& key );
 

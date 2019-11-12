@@ -15,7 +15,7 @@ TEST_CASE("Vigenere Cipher decryption", "[vigenere]") {
 }
 
 TEST_CASE("Vigenere Cipher empty key", "[vigenere]") {
-  REQUIRE_THROWS_AS(VigenereCipher vc{""}, InvalidKey);
-  REQUIRE_THROWS_AS(VigenereCipher vc{"!"}, InvalidKey);
-  REQUIRE_THROWS_AS(VigenereCipher vc{"1"}, InvalidKey);
+  REQUIRE_THROWS_AS([](){VigenereCipher vc{""};}(), InvalidKey);
+  REQUIRE_THROWS_AS([](){VigenereCipher vc{"!"};}(), InvalidKey);
+  REQUIRE_THROWS_AS([](){VigenereCipher vc{"1"};}(), InvalidKey);
 }

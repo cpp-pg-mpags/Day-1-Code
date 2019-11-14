@@ -72,7 +72,10 @@ std::string PlayfairCipher::applyCipher( const std::string& inputText, const Cip
     // Always add the first of the bigram
     tmpText += outputText[i];
     if ( i+1 == outputText.size() ) {
-      // If this was the last character then we need to break out
+      // If this was the last character then we've ended up with an odd-length input
+      // so add Z to the end (or X if the last character is a Z)
+      tmpText += (outputText[i] == 'Z') ? 'X' : 'Z';
+      // then explicitly break out of the loop since we've finished
       break;
     } else if ( outputText[i] != outputText[i+1] ) {
       // If the two characters in the bigram are different,
@@ -87,14 +90,9 @@ std::string PlayfairCipher::applyCipher( const std::string& inputText, const Cip
       --i;
     }
   }
+
   // Swap the contents of the original and modified strings - cheaper than assignment
   outputText.swap(tmpText);
-
-  // If the size of the input is odd, add a trailing Z
-  // (or add an X if the last character is already a Z)
-  if ( (outputText.size() % 2) == 1 ) {
-    outputText += (outputText[outputText.size()-1] == 'Z') ? 'X' : 'Z';
-  }
 
   // Depending on encryption/decryption mode, set whether to increment or
   // decrement the column/row index (modulo the grid dimension)
@@ -104,10 +102,8 @@ std::string PlayfairCipher::applyCipher( const std::string& inputText, const Cip
   for (std::string::size_type i{0}; i < outputText.size(); i+=2) {
 
     // Find the coordinates in the grid for each digraph
-    auto pointOneIter = charLookup_.find( outputText[i] );
-    auto pointTwoIter = charLookup_.find( outputText[i+1] );
-    PlayfairCoords pointOne = pointOneIter->second;
-    PlayfairCoords pointTwo = pointTwoIter->second;
+    PlayfairCoords pointOne { charLookup_.at( outputText[i] ) };
+    PlayfairCoords pointTwo { charLookup_.at( outputText[i+1] ) };
 
     // Find whether the two points are on a row, a column or form a rectangle/square
     // Then apply the appropriate rule to these coords to get new coords
@@ -132,15 +128,9 @@ std::string PlayfairCipher::applyCipher( const std::string& inputText, const Cip
 
     }
 
-    // Find the letters associated with the new coords
-    auto charOneIter = coordLookup_.find( pointOne );
-    auto charTwoIter = coordLookup_.find( pointTwo );
-    char charOne = charOneIter->second;
-    char charTwo = charTwoIter->second;
-
-    // Make the replacements
-    outputText[i] = charOne;
-    outputText[i+1] = charTwo;
+    // Find the letters associated with the new coords and make the replacements
+    outputText[i] = coordLookup_.at( pointOne );
+    outputText[i+1] = coordLookup_.at( pointTwo );
   }
 
   // Return the output text

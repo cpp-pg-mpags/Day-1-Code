@@ -46,7 +46,7 @@ class VigenereCipher : public Cipher {
 
   private:
     /// The cipher key
-    std::string key_ = "";
+    std::string key_ {""};
 
     /// Lookup table to go from the character to the corresponding Caesar cipher
     std::map<char,CaesarCipher> charLookup_;

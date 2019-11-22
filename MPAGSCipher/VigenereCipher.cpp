@@ -46,7 +46,7 @@ void VigenereCipher::setKey( const std::string& key )
     }
 
     // Find the position of the letter in the alphabet
-    std::string::size_type index = Alphabet::alphabet.find( letter );
+    const std::string::size_type index { Alphabet::alphabet.find( letter ) };
 
     // Construct a Caesar cipher object in-place using the position as the key,
     // storing it so that it can be retrieved based on the character in the key
@@ -59,23 +59,25 @@ std::string VigenereCipher::applyCipher( const std::string& inputText, const Cip
 {
   // Create the output string
   std::string outputText {""};
+  outputText.reserve( inputText.size() );
+
+  // Store the size of the key
+  const std::string::size_type keySize { key_.size() };
 
   // Loop through the text
   for ( std::string::size_type i {0}; i < inputText.size(); ++i ) {
 
     // Determine the corresponding character in the key based on the position
     // (repeating the key if necessary)
-    char keyChar = key_[ i % key_.size() ];
+    const char keyChar { key_[ i % keySize ] };
 
     // Find the corresponding Caesar cipher
-    auto iter = charLookup_.find( keyChar );
+    const CaesarCipher& cipher { charLookup_.at( keyChar ) };
 
     // Use it to encrypt/decrypt the character of the text
-    std::string oldChar { inputText[i] };
-    std::string newChar { iter->second.applyCipher( oldChar, cipherMode ) };
-
-    // Put the new character into the output
-    outputText += newChar;
+    // and put the new character into the output
+    const std::string oldChar { inputText[i] };
+    outputText += cipher.applyCipher( oldChar, cipherMode );
   }
 
   // Return the output text

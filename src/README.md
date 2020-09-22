@@ -12,10 +12,7 @@ To build from a clone of this repository, open a terminal window
 and change directory into that holding this README. Then run:
 ```
 $ ls
-LICENSE          README.md        build            src
-$ cd src
-$ ls
-mpags-cipher.cpp
+LICENSE          README.md        mpags-cipher.cpp
 $ g++ -std=c++11 -Wall -Wextra -Werror -Wfatal-errors -pedantic -Wshadow -o mpags-cipher mpags-cipher.cpp
 $ ./mpags-cipher
 ```
@@ -39,10 +36,11 @@ follows:
 ```
 $ tree
 .
-├── LICENSE                 License file, in our case MIT
-├── README.md               This file, describes the project
+├── README.md               Top-level README, describes layout of the repository
 ├── build
 └── src
+    ├── LICENSE             License file, in our case MIT
+    ├── README.md           This file, describes the project
     └── mpags-cipher.cpp    Main program C++ source file
 ```
 

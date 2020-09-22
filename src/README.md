@@ -9,12 +9,11 @@ Windows platforms with Visual Studio 2015 or better are also expected to
 work, but not tested.
 
 To build from a clone of this repository, open a terminal window
-and change directory into that holding this README. Create a build
-directory in which to run `cmake` and the build, and change into it:
+and change directory into the build directory:
 
 ```
 $ ls
-LICENSE          README.md        build            src
+README.md        build            src
 $ cd build
 ```
 
@@ -111,14 +110,14 @@ follows:
 
 ```
 .
-├── LICENSE                            License file, in our case MIT
-├── README.md                          This file, describes the project
+├── README.md                          Top-level README, describes layout of the repository
 ├── build
 └── src
     ├── CMakeLists.txt                 CMake build script
     ├── Documentation                  Subdirectory for documentation of the MPAGSCipher library
     │   ├── CMakeLists.txt
     │   └── Doxyfile.in
+    ├── LICENSE                        License file, in our case MIT
     ├── MPAGSCipher                    Subdirectory for MPAGSCipher library code
     │   ├── Alphabet.hpp
     │   ├── CMakeLists.txt
@@ -137,6 +136,7 @@ follows:
     │   ├── TransformChar.hpp
     │   ├── VigenereCipher.cpp
     │   └── VigenereCipher.hpp
+    ├── README.md                      This file, describes the project
     ├── Testing                        Subdirectory for testing the MPAGSCipher library
     │   ├── CMakeLists.txt
     │   ├── catch.hpp
@@ -154,4 +154,3 @@ follows:
 # Copying
 `mpags-cipher` is licensed under the terms of the MIT License. Please see
 the file [`LICENSE`](LICENSE) for full details.
-

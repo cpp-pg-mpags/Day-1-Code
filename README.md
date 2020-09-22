@@ -14,16 +14,15 @@ directory in which to run `cmake` and the build, and change into it:
 
 ```
 $ ls
-CMakeLists.txt   LICENSE          MPAGSCipher      README.md        mpags-cipher.cpp
-$ mkdir ../Build
-$ cd ../Build
+LICENSE          README.md        build            src
+$ cd build
 ```
 
-Run `cmake` in this directory, pointing it to the directory holding this
-README, and consequently the top level CMake script for the project:
+Run `cmake` in this directory, pointing it to the directory holding the top
+level CMake script for the project:
 
 ```
-$ cmake ../<this dir>
+$ cmake ../src
 ... system specific output ...
 -- Configuring done
 -- Generating done
@@ -111,43 +110,45 @@ Under this directory, the code and associated files are organised as
 follows:
 
 ```
-MPAGS-Code
-├── README.md             This file, describes the project
-├── LICENSE               License file, in our case MIT
-├── CMakeLists.txt        CMake build script
-├── mpags-cipher.cpp      Main program C++ source file
-├── Documentation         Subdirectory for documentation of the MPAGSCipher library
-│   ├── CMakeLists.txt
-│   └── Doxyfile.in
-├── MPAGSCipher           Subdirectory for MPAGSCipher library code
-│   ├── CMakeLists.txt
-│   ├── Alphabet.hpp
-│   ├── CaesarCipher.cpp
-│   ├── CaesarCipher.hpp
-│   ├── Cipher.hpp
-│   ├── CipherFactory.cpp
-│   ├── CipherFactory.hpp
-│   ├── CipherMode.hpp
-│   ├── CipherType.hpp
-│   ├── PlayfairCipher.cpp
-│   ├── PlayfairCipher.hpp
-│   ├── ProcessCommandLine.cpp
-│   ├── ProcessCommandLine.hpp
-│   ├── TransformChar.cpp
-│   ├── TransformChar.hpp
-│   ├── VigenereCipher.cpp
-│   └── VigenereCipher.hpp
-├── Testing               Subdirectory for testing the MPAGSCipher library
-│   ├── CMakeLists.txt
-│   ├── catch.hpp
-│   ├── testCaesarCipher.cpp
-│   ├── testCatch.cpp
-│   ├── testCiphers.cpp
-│   ├── testHello.cpp
-│   ├── testPlayfairCipher.cpp
-│   ├── testProcessCommandLine.cpp
-│   ├── testTransformChar.cpp
-│   └── testVigenereCipher.cpp
+.
+├── LICENSE                            License file, in our case MIT
+├── README.md                          This file, describes the project
+├── build
+└── src
+    ├── CMakeLists.txt                 CMake build script
+    ├── Documentation                  Subdirectory for documentation of the MPAGSCipher library
+    │   ├── CMakeLists.txt
+    │   └── Doxyfile.in
+    ├── MPAGSCipher                    Subdirectory for MPAGSCipher library code
+    │   ├── Alphabet.hpp
+    │   ├── CMakeLists.txt
+    │   ├── CaesarCipher.cpp
+    │   ├── CaesarCipher.hpp
+    │   ├── Cipher.hpp
+    │   ├── CipherFactory.cpp
+    │   ├── CipherFactory.hpp
+    │   ├── CipherMode.hpp
+    │   ├── CipherType.hpp
+    │   ├── PlayfairCipher.cpp
+    │   ├── PlayfairCipher.hpp
+    │   ├── ProcessCommandLine.cpp
+    │   ├── ProcessCommandLine.hpp
+    │   ├── TransformChar.cpp
+    │   ├── TransformChar.hpp
+    │   ├── VigenereCipher.cpp
+    │   └── VigenereCipher.hpp
+    ├── Testing                        Subdirectory for testing the MPAGSCipher library
+    │   ├── CMakeLists.txt
+    │   ├── catch.hpp
+    │   ├── testCaesarCipher.cpp
+    │   ├── testCatch.cpp
+    │   ├── testCiphers.cpp
+    │   ├── testHello.cpp
+    │   ├── testPlayfairCipher.cpp
+    │   ├── testProcessCommandLine.cpp
+    │   ├── testTransformChar.cpp
+    │   └── testVigenereCipher.cpp
+    └── mpags-cipher.cpp               Main program C++ source file
 ```
 
 # Copying

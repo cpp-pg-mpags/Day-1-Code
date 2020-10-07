@@ -52,12 +52,8 @@ void VigenereCipher::setKey( const std::string& key )
 
 }
 
-std::string VigenereCipher::applyCipher( const std::string& inputText, const CipherMode cipherMode ) const
+std::string VigenereCipher::applyCipher( std::string inputText, const CipherMode cipherMode ) const
 {
-  // Create the output string
-  std::string outputText {""};
-  outputText.reserve( inputText.size() );
-
   // Store the size of the key
   const std::string::size_type keySize { key_.size() };
 
@@ -74,10 +70,10 @@ std::string VigenereCipher::applyCipher( const std::string& inputText, const Cip
     // Use it to encrypt/decrypt the character of the text
     // and put the new character into the output
     const std::string oldChar { inputText[i] };
-    outputText += cipher.applyCipher( oldChar, cipherMode );
+    inputText[i] = cipher.applyCipher( oldChar, cipherMode )[0];
   }
 
   // Return the output text
-  return outputText;
+  return inputText;
 }
 

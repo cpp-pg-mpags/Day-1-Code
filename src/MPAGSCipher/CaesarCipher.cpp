@@ -42,39 +42,29 @@ CaesarCipher::CaesarCipher( const std::string& key )
   }
 }
 
-std::string CaesarCipher::applyCipher( const std::string& inputText, const CipherMode cipherMode ) const
+std::string CaesarCipher::applyCipher( std::string inputText, const CipherMode cipherMode ) const
 {
-  // Create the output string
-  std::string outputText {};
+  // Determine the appropriate shift
+  // (depending on whether we're encrypting or decrypting)
+  const Alphabet::AlphabetSize shift { (cipherMode == CipherMode::Encrypt) ? key_ : Alphabet::size - key_ };
 
   // Loop over the input text
-  char processedChar {'x'};
-  for ( const auto& origChar : inputText ) {
+  for ( auto& currentChar : inputText ) {
 
     // For each character in the input text, find the corresponding position in
     // the alphabet by using an indexed loop over the alphabet container
     for ( Alphabet::AlphabetSize i{0}; i < Alphabet::size; ++i ) {
 
-      if ( origChar == Alphabet::alphabet[i] ) {
+      if ( currentChar == Alphabet::alphabet[i] ) {
 
-        // Apply the appropriate shift (depending on whether we're encrypting
-        // or decrypting) and determine the new character
+	// Determine the new character and update in-place
+        currentChar = Alphabet::alphabet[ (i + shift) % Alphabet::size ];
+
         // Can then break out of the loop over the alphabet
-        switch ( cipherMode ) {
-          case CipherMode::Encrypt :
-            processedChar = Alphabet::alphabet[ (i + key_) % Alphabet::size ];
-            break;
-          case CipherMode::Decrypt :
-            processedChar = Alphabet::alphabet[ (i + Alphabet::size - key_) % Alphabet::size ];
-            break;
-        }
         break;
       }
     }
-
-    // Add the new character to the output text
-    outputText += processedChar;
   }
 
-  return outputText;
+  return inputText;
 }

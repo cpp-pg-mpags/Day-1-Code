@@ -48,7 +48,7 @@ class VigenereCipher : public Cipher {
      * \param cipherMode whether to encrypt or decrypt the input text
      * \return the result of applying the cipher to the input text
      */
-    virtual std::string applyCipher( const std::string& inputText, const CipherMode cipherMode ) const override;
+    virtual std::string applyCipher( std::string inputText, const CipherMode cipherMode ) const override;
 
   private:
     /// The cipher key

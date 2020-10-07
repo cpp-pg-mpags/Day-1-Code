@@ -33,7 +33,7 @@ class Cipher {
      * \param cipherMode whether to encrypt or decrypt the input text
      * \return the result of applying the cipher to the input text
      */
-    virtual std::string applyCipher( const std::string& inputText, const CipherMode cipherMode ) const = 0;
+    virtual std::string applyCipher( std::string inputText, const CipherMode cipherMode ) const = 0;
 
     /// Default constructor
     Cipher() = default;

@@ -123,7 +123,7 @@ int main(int argc, char* argv[])
   }
 
   // Run the cipher on the input text, specifying whether to encrypt/decrypt
-  std::string outputText { cipher->applyCipher( inputText, settings.cipherMode ) };
+  std::string outputText { cipher->applyCipher( std::move(inputText), settings.cipherMode ) };
 
   // Output the transliterated text
   if (!settings.outputFile.empty()) {

@@ -52,18 +52,11 @@ std::string CaesarCipher::applyCipher( std::string inputText, const CipherMode c
   for ( auto& currentChar : inputText ) {
 
     // For each character in the input text, find the corresponding position in
-    // the alphabet by using an indexed loop over the alphabet container
-    for ( Alphabet::AlphabetSize i{0}; i < Alphabet::size; ++i ) {
+    // the alphabet container
+    const Alphabet::AlphabetSize index{ Alphabet::alphabet.find(currentChar) };
 
-      if ( currentChar == Alphabet::alphabet[i] ) {
-
-	// Determine the new character and update in-place
-        currentChar = Alphabet::alphabet[ (i + shift) % Alphabet::size ];
-
-        // Can then break out of the loop over the alphabet
-        break;
-      }
-    }
+    // Determine the new character and update in-place
+    currentChar = Alphabet::alphabet[ (index + shift) % Alphabet::size ];
   }
 
   return inputText;

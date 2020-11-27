@@ -62,45 +62,42 @@ std::string PlayfairCipher::applyCipher( std::string inputText, const CipherMode
 
   // Find repeated characters (but only when they occur within a bigram)
   // and add an X (or a Q for repeated X's) between them
-  std::string tmpText {""};
+  std::string outputText {""};
   // Reserve space to hold the size of the input text plus a bit of headroom
-  tmpText.reserve( inputText.size() * 1.1 );
+  outputText.reserve( inputText.size() * 1.1 );
   for (std::string::size_type i{0}; i < inputText.size(); i+=2) {
     // Always add the first of the bigram
-    tmpText += inputText[i];
+    outputText += inputText[i];
     if ( i+1 == inputText.size() ) {
       // If this was the last character then we've ended up with an odd-length input
       // so add Z to the end (or X if the last character is a Z)
-      tmpText += (inputText[i] == 'Z') ? 'X' : 'Z';
+      outputText += (inputText[i] == 'Z') ? 'X' : 'Z';
       // then explicitly break out of the loop since we've finished
       break;
     } else if ( inputText[i] != inputText[i+1] ) {
       // If the two characters in the bigram are different,
       // simply add the second one as well
-      tmpText += inputText[i+1];
+      outputText += inputText[i+1];
     } else {
       // Otherwise, if two characters in the bigram are the same,
       // we instead add an X (or a Q if the first was an X)
-      tmpText += (inputText[i] == 'X') ? 'Q' : 'X';
+      outputText += (inputText[i] == 'X') ? 'Q' : 'X';
       // Need to decrement i since the second character in this bigram now
       // becomes the first character in the next one
       --i;
     }
   }
 
-  // Swap the contents of the original and modified strings - cheaper than assignment
-  inputText.swap(tmpText);
-
   // Depending on encryption/decryption mode, set whether to increment or
   // decrement the column/row index (modulo the grid dimension)
   const std::string::size_type shift { (cipherMode == CipherMode::Encrypt) ? 1u : gridDim_-1u };
 
   // Loop over the input digraphs
-  for (std::string::size_type i{0}; i < inputText.size(); i+=2) {
+  for (std::string::size_type i{0}; i < outputText.size(); i+=2) {
 
     // Find the coordinates in the grid for each digraph
-    PlayfairCoords pointOne { charLookup_.at( inputText[i] ) };
-    PlayfairCoords pointTwo { charLookup_.at( inputText[i+1] ) };
+    PlayfairCoords pointOne { charLookup_.at( outputText[i] ) };
+    PlayfairCoords pointTwo { charLookup_.at( outputText[i+1] ) };
 
     // Find whether the two points are on a row, a column or form a rectangle/square
     // Then apply the appropriate rule to these coords to get new coords
@@ -126,10 +123,10 @@ std::string PlayfairCipher::applyCipher( std::string inputText, const CipherMode
     }
 
     // Find the letters associated with the new coords and make the replacements
-    inputText[i] = coordLookup_.at( pointOne );
-    inputText[i+1] = coordLookup_.at( pointTwo );
+    outputText[i] = coordLookup_.at( pointOne );
+    outputText[i+1] = coordLookup_.at( pointTwo );
   }
 
   // Return the output text
-  return inputText;
+  return outputText;
 }
